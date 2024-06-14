@@ -6,7 +6,7 @@ const SuperAdmin = require('../models/superAdminModel');
 const { encriptarContrasena, desencriptarContrasena } = require('../utils/utilidadContrasena');
 
 const router = express.Router();
-const LLAVE_SECRETA = process.env.CLAVE_SECRETA || 'tu_llave_secreta';
+const LLAVE_SECRETA = process.env.LLAVE_SECRETA || 'tu_llave_secreta';
 
 // Ruta para el login del super administrador
 router.post('/superadmin/login', async (req, res) => {
