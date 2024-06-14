@@ -6,6 +6,14 @@ require('dotenv').config();
 const sequelize = new Sequelize(process.env.PG_URI, {
   dialect: 'postgres',
   logging: false, // Desactiva el logging, puedes activarlo si lo deseas
+  dialectOptions: {
+    ssl: {
+      require: true, // Asegura que SSL se requiere
+      rejectUnauthorized: false // Desactiva la verificación del certificado
+      // Si deseas especificar el certificado CA, puedes hacerlo aquí
+      // ca: fs.readFileSync('path/to/ca-certificate.crt').toString(),
+    }
+  }
 });
 
 sequelize.authenticate()
