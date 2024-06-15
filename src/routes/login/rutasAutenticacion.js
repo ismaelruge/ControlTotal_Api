@@ -14,34 +14,32 @@ router.post('/superadmin/login', async (req, res) => {
 
     // Verificar que se proporcionaron todos los parámetros necesarios
     if (!usuario || !contrasena) {
-        res.status(400).json({ ok: false, message: 'Faltan parámetros necesarios' });
+        res.status(400).json({ message: 'Faltan parámetros necesarios' });
         return;
     }
 
     try {
         const superAdmin = await SuperAdmin.findOne({ where: { usuario } });
         if (!superAdmin) {
-            res.status(404).json({ ok: false, message: 'Usuario no encontrado' });
+            res.status(404).json({ message: 'Usuario no encontrado' });
             return;
         }
 
         const contrasenaDesencriptada = desencriptarContrasena(superAdmin.contrasena);
         if (contrasena !== contrasenaDesencriptada) {
-            res.status(401).json({ ok: false, message: 'Contraseña incorrecta' });
+            res.status(401).json({ message: 'Contraseña incorrecta' });
             return;
         }
 
         const token = jwt.sign({ userId: superAdmin.id }, LLAVE_SECRETA, { expiresIn: '1h' });
-        res.status(200).json({ ok: true, data: token });
+        res.status(200).json({ data: token });
     } catch (error) {
         if (error instanceof Sequelize.DatabaseError) {
-            res.status(500).json({ ok: false, message: 'Error en la base de datos: ' + error.message });
+            res.status(500).json({ message: 'Error en la base de datos: ' + error.message });
         } else {
-            res.status(500).json({ ok: false, message: 'Error al iniciar sesión: ' + error.message });
+            res.status(500).json({ message: 'Error al iniciar sesión: ' + error.message });
         }
     }
 });
-
-
 
 module.exports = router;
