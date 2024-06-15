@@ -1,7 +1,7 @@
-// src/models/superAdminModel.js
+// src/models/login/superAdminModel.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../../config/database');
 
 // Definición del modelo SuperAdmin
 const SuperAdmin = sequelize.define('SuperAdmin', {

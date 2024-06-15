@@ -4,13 +4,11 @@ const http = require('http');
 const socketIo = require('socket.io');
 const crypto = require('crypto');
 const sequelize = require('./src/config/database'); // Importa la configuración de Sequelize
-const rutasAutenticacion = require('./src/routes/rutasAutenticacion'); // Importa las rutas de autenticación
+const rutasAutenticacion = require('./src/routes/login/rutasAutenticacion'); // Importa las rutas de autenticación
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
-
-const PORT = process.env.PORT || 3000;
+//const io = socketIo(server);
 
 // Middleware para parsear JSON
 app.use(express.json());
@@ -19,9 +17,9 @@ app.use(express.json());
 app.get('/validate-connection', async (req, res) => {
     try {
         await sequelize.authenticate();
-        res.status(200).send('Conexión a la base de datos PostgreSQL exitosa');
+        res.status(200).send('Conexión a la base de datos exitosa');
     } catch (error) {
-        res.status(500).send('Error al conectar a la base de datos PostgreSQL: ' + error.message);
+        res.status(500).send('Error al conectar a la base de datos: ' + error.message);
     }
 });
 
@@ -32,20 +30,22 @@ app.get('/generate-secret-key', (req, res) => {
 });
 
 // Usar las rutas de autenticación
-app.use('/auth', rutasAutenticacion);
+app.use('/api', rutasAutenticacion);
 
-io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
+// io.on('connection', (socket) => {
+//     console.log('Nuevo cliente conectado');
     
-    socket.on('message', (data) => {
-        console.log('Mensaje recibido en el servidor:', data);
-        io.emit('message', data);
-    });
+//     socket.on('message', (data) => {
+//         console.log('Mensaje recibido en el servidor:', data);
+//         io.emit('message', data);
+//     });
     
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
-    });
-});
+//     socket.on('disconnect', () => {
+//         console.log('Cliente desconectado');
+//     });
+// });
+
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
     console.log(`El servidor está ejecutándose en el puerto ${PORT}`);
