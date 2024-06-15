@@ -1,6 +1,7 @@
 // server.js
 const express = require('express');
 const http = require('http');
+const cors = require('cors'); // Importar cors
 const socketIo = require('socket.io');
 const crypto = require('crypto');
 const sequelize = require('./src/config/database'); // Importa la configuración de Sequelize
@@ -12,6 +13,9 @@ const server = http.createServer(app);
 
 // Middleware para parsear JSON
 app.use(express.json());
+
+// Middleware para habilitar CORS
+app.use(cors()); // Agregar el middleware cors
 
 // Endpoint para validar la conexión a la base de datos
 app.get('/validate-connection', async (req, res) => {
@@ -45,7 +49,7 @@ app.use('/api', rutasAutenticacion);
 //     });
 // });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => {
     console.log(`El servidor está ejecutándose en el puerto ${PORT}`);
