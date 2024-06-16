@@ -32,7 +32,7 @@ router.post('/superadmin/login', async (req, res) => {
         }
 
         const token = jwt.sign({ userId: superAdmin.id }, LLAVE_SECRETA, { expiresIn: '1h' });
-        res.status(200).json({ data: token });
+        res.status(200).json({ token });
     } catch (error) {
         if (error instanceof Sequelize.DatabaseError) {
             res.status(500).json({ message: 'Error en la base de datos: ' + error.message });

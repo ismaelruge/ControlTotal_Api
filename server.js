@@ -6,6 +6,7 @@ const socketIo = require('socket.io');
 const crypto = require('crypto');
 const sequelize = require('./src/config/database'); // Importa la configuración de Sequelize
 const rutasAutenticacion = require('./src/routes/login/rutasAutenticacion'); // Importa las rutas de autenticación
+const rutasGenerales = require('./src/routes/rutasGenerales'); // Importa las rutas generales de la api
 
 const app = express();
 const server = http.createServer(app);
@@ -35,6 +36,9 @@ app.get('/generate-secret-key', (req, res) => {
 
 // Usar las rutas de autenticación
 app.use('/api', rutasAutenticacion);
+
+// Usar las rutas generales de la api
+app.use('/api', rutasGenerales);
 
 // io.on('connection', (socket) => {
 //     console.log('Nuevo cliente conectado');
